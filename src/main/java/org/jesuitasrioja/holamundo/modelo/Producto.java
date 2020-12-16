@@ -7,11 +7,9 @@ public class Producto {
 	private Double precio;
 
 	public Producto() {
-		super();
 	}
 
 	public Producto(String id, String nombre, Double precio) {
-		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.precio = precio;

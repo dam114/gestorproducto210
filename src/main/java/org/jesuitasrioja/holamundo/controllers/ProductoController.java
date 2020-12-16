@@ -1,9 +1,10 @@
 package org.jesuitasrioja.holamundo.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.jesuitasrioja.holamundo.modelo.Producto;
+import org.jesuitasrioja.holamundo.repository.IProductosRepository;
+import org.jesuitasrioja.holamundo.repository.ProductosRepository;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,31 +16,27 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ProductoController {
+	
+	private IProductosRepository pr = new ProductosRepository();
 
 	@GetMapping("/productos")
 	public List<Producto> allProducts() {
-		
-		List<Producto> listaProductos = new ArrayList<Producto>();
-		listaProductos.add(new Producto("1", "tomate", 1.30));
-		listaProductos.add(new Producto("2", "patata", 0.50));
-		listaProductos.add(new Producto("3", "aguacate", 3.0));
-		
-		return listaProductos;
+		return pr.getAll();
 	}
 	
 	@GetMapping("/producto/{id}")
 	public Producto getProducto(@PathVariable String id) {
-		return new Producto(id, "tomate", 1.30);
+		return pr.getById(id);
 	}
 	
 	@GetMapping("/producto")
 	public Producto getProducto2(@RequestParam String id) {
-		return new Producto(id, "tomate", 1.30);
+		return pr.getById(id);
 	}
 	
 	@PostMapping("/producto")
 	public String postProducto(@RequestBody Producto nuevoProducto) {
-		return "Añadido"+nuevoProducto.toString();
+		return String.valueOf(pr.aniadirProducto(nuevoProducto));
 	}
 	
 	@PutMapping("/producto/{id}")
@@ -48,8 +45,8 @@ public class ProductoController {
 	}
 	
 	@DeleteMapping("/producto/{id}")
-	public String deleteProducto() {
-		return null; 
+	public String deleteProducto(@PathVariable String id) {
+		return String.valueOf(pr.eliminarProducto(id)); 
 	}
 	
 	
